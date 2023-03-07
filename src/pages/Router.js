@@ -7,9 +7,9 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={WeatherPage} />
-        <Route path="/search" element={SearchPage} />
-        <Route path="/contact" element={ContactPage} />
+        <Route path="/" element={<WeatherPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </BrowserRouter>
   );
