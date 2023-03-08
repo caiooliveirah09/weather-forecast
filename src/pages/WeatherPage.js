@@ -4,24 +4,39 @@ import NavBar from "../components/NavBar";
 import getWeatherByCity from "../utils/open_weather_api";
 
 function WeatherPage() {
-  const [city, setCity] = useState("Guaratuba");
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [weatherIsOk, setWeatherIsOk] = useState(false);
   const [icon, setIcon] = useState(null);
 
   const getWeather = async () => {
-    const mainCity = await getWeatherByCity("guaratuba");
-    setWeather(mainCity);
-    setWeatherIsOk(true);
-    setIcon(
-      `https://openweathermap.org/img/wn/${mainCity.weather[0].icon}.png`
+    if (city) {
+      const mainCity = await getWeatherByCity("guaratuba");
+      setWeather(mainCity);
+      setWeatherIsOk(true);
+      setIcon(
+        `https://openweathermap.org/img/wn/${mainCity.weather[0].icon}.png`
+      );
+    }
+  };
+
+  const sucess = async (position) => {
+    const result = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&result_type=locality&key=AIzaSyCxAgEoVCW_DkmqoSAEPjsfyZHNEB2dVrs`
     );
+    const data = await result.json();
+    const codeMoreCity = data.plus_code.compound_code.split(",")[0];
+    const city = codeMoreCity.split(" ")[1];
+    setCity(city);
   };
 
   useEffect(() => {
-    getWeather();
+    navigator.geolocation.getCurrentPosition(sucess);
   }, []);
 
+  useEffect(() => {
+    getWeather();
+  }, [city]);
   return (
     <div>
       <div>
