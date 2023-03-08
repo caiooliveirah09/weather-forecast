@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Background from "../components/Background";
 import NavBar from "../components/NavBar";
 
@@ -6,6 +6,11 @@ const submitButtonDisabled =
   "bg-gray-400 w-4/12 flex justify-center items-center uppercase my-2 h-10 text-gray-100 text-sm";
 const submitButtonNotDisabled =
   "bg-gradient-to-r from-violet-500 to-fuchsia-500 w-4/12 flex justify-center items-center uppercase my-2 h-10 text-gray-100 text-sm";
+
+const inputError =
+  "w-full max-w-screen-sm text-sm border-red-400 border h-9 my-3 px-2 h-14 max-md:my-1";
+const inputNotError =
+  "w-full max-w-screen-sm text-sm border-gray-400 border h-9 my-3 px-2 h-14 max-md:my-1";
 
 function ContactPage() {
   const [name, setName] = useState("");
@@ -59,6 +64,11 @@ function ContactPage() {
       : setMessageError("Por favor, digite a descrição de sua mensagem");
   };
 
+  useEffect(() => {
+    name && email && subject && message && !emailError
+      ? setSubmitIsDisabled(false)
+      : setSubmitIsDisabled(true);
+  }, [name, email, subject, message]);
   return (
     <div>
       <div>
@@ -86,7 +96,7 @@ function ContactPage() {
                 value={name}
                 onChange={handleName}
                 placeholder="seu nome"
-                className=" w-full max-w-screen-sm text-sm border-gray-400 border h-9 my-3 px-2 h-14 max-md:my-1"
+                className={nameError ? inputError : inputNotError}
               />
               {nameError && <div className="text-sm">{nameError}</div>}
               <input
@@ -95,7 +105,7 @@ function ContactPage() {
                 value={email}
                 onChange={handleEmail}
                 placeholder="seu e-mail"
-                className=" w-full max-w-screen-sm text-sm border-gray-400 border h-9 my-3 px-2 h-14 max-md:my-1"
+                className={emailError ? inputError : inputNotError}
               />
               {emailError && <div className="text-sm">{emailError}</div>}
               <input
@@ -104,7 +114,7 @@ function ContactPage() {
                 value={subject}
                 onChange={handleSubject}
                 placeholder="assunto"
-                className=" w-full max-w-screen-sm text-sm border-gray-400 border h-9 my-3 px-2 h-14 max-md:my-1"
+                className={subjectError ? inputError : inputNotError}
               />
               {subjectError && <div className="text-sm">{subjectError}</div>}
               <label
@@ -112,6 +122,20 @@ function ContactPage() {
                 className="bg-gradient-to-r from-violet-500 to-fuchsia-500 w-4/12 flex justify-center items-center uppercase my-2 h-10 text-gray-50 text-sm max-md:my-1"
               >
                 Escolher ficheiro
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5 ml-2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+                  />
+                </svg>
               </label>
               <input
                 type="file"
