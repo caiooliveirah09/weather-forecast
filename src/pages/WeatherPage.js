@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 import getWeatherByCity from "../utils/open_weather_api";
 
 function WeatherPage() {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("São Paulo");
   const [weather, setWeather] = useState(null);
   const [weatherIsOk, setWeatherIsOk] = useState(false);
   const [icon, setIcon] = useState(null);
