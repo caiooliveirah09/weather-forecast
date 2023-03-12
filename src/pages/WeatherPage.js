@@ -30,7 +30,7 @@ function WeatherPage() {
 
   const getCityOfUser = async (position) => {
     const result = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&result_type=locality&key=AIzaSyCxAgEoVCW_DkmqoSAEPjsfyZHNEB2dVrs`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&result_type=locality&key={Process.env.API_GOOGLE}`
     );
     const data = await result.json();
     const codeMoreCity = data.plus_code.compound_code.split(",")[0];
